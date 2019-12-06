@@ -35,8 +35,7 @@ import javax.crypto.spec.SecretKeySpec
 
 internal const val logLevel = 1
 
-const val PASSWORD = ""
-/** <------ 여기에 개인적으로 받은 값을 넣어주세요 */
+const val PASSWORD = "" /** <------ 여기에 개인적으로 받은 값을 넣어주세요 */
 const val ENCRYPTED_VALUE =
     "JaTSg/JrOce7gJcKoZs8A+yW3PgnS+F33AGDXpiATsBJHg+naV/IJmACuqR0FweSIfhr5fPMDzrFmVpUtIUD0IyV0CNW9w/nDGWV1dBI8Is="
 
