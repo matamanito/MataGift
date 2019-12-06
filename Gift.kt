@@ -35,12 +35,12 @@ import javax.crypto.spec.SecretKeySpec
 
 internal const val logLevel = 1
 
-const val PASSWORD = "" /** <------ 여기에 개인적으로 받은 값을 넣어주세요 */
+const val PASSWORD = ""
+/** <------ 여기에 개인적으로 받은 값을 넣어주세요 */
 const val ENCRYPTED_VALUE =
     "JaTSg/JrOce7gJcKoZs8A+yW3PgnS+F33AGDXpiATsBJHg+naV/IJmACuqR0FweSIfhr5fPMDzrFmVpUtIUD0IyV0CNW9w/nDGWV1dBI8Is="
 
 fun main(args: Array<String>) {
-    var value = ""
     val daemonName = "Manito#"
     Kotlmata.config {
         print.debug {
@@ -49,6 +49,7 @@ fun main(args: Array<String>) {
     }
 
     val core = KotlmataDaemon("$daemonName", logLevel, "Mata thread") {
+        var value = "" // immutable로 넘겨야하는데 이런 장난을 하다니?
         on start {
             Thread.currentThread().priority = Thread.MAX_PRIORITY
         }
@@ -80,7 +81,7 @@ fun main(args: Array<String>) {
                 value += "this year"
                 printKey(value)
                 try {
-                    printSecretKey(ENCRYPTED_VALUE.decrypt(getKey(value)))
+                    printSecretKey(ENCRYPTED_VALUE.decrypt(PASSWORD + value))
                 } catch (e: BadPaddingException) {
                     print("올바른 password가 필요합니다.")
                 }
@@ -96,32 +97,28 @@ fun main(args: Array<String>) {
         start at "마"
     }
 
-    core.run()
-    core.input(타())
-    core.input(The())
-    core.input(Programmer())
-    core.input(Channel())
-    core.input(End())
+    with(core) {
+        run()
+        input(타())
+        input(The())
+        input(Programmer())
+        input(Channel())
+        input(End())
+    }
+
+    // site : https://github.com/matamanito/MataGift/blob/master/Gift.kt
 }
 
 private fun printKey(value: String) {
-    println("\n")
-    println("------------------key------------------\n")
+    println("\n------------------key------------------\n")
     println(PASSWORD + value)
-    println("\n------------------key------------------")
-    println("\n")
+    println("\n------------------key------------------\n")
 }
 
 private fun printSecretKey(value: String) {
-    println("\n")
-    println("------------------SecretKey------------------\n")
+    println("\n------------------SecretKey------------------\n")
     println(value)
-    println("\n------------------SecretKey------------------")
-    println("\n")
-}
-
-private fun getKey(value: String): String {
-    return PASSWORD + value
+    println("\n------------------SecretKey------------------\n")
 }
 
 fun String.decrypt(password: String): String {
@@ -142,5 +139,3 @@ private class The
 private class Programmer
 private class Channel
 private class End
-
-// site : https://github.com/matamanito/MataGift/blob/master/Gift.kt
